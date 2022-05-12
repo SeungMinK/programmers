@@ -1,6 +1,7 @@
 /**
  * 
- * 문제 설명
+ * 
+문제 설명
 오픈채팅방
 카카오톡 오픈채팅방에서는 친구가 아닌 사람들과 대화를 할 수 있는데, 본래 닉네임이 아닌 가상의 닉네임을 사용하여 채팅방에 들어갈 수 있다.
 
@@ -69,14 +70,50 @@ record	result
 
 function solution(record) {
     var answer = [];
-    console.log(record)
+    let user = new Map();
+    let userList = [];
+    for(let i=0;i<record.length;i++){
+        let splitArray = record[i].split(' ');
+        let sentence = '';
+    
+        if(splitArray[0]=='Enter'){
+            sentence = `${splitArray[1]}님이 들어왔습니다.`
+            user.set(splitArray[1],splitArray[2]);
+            userList.push(splitArray[1])
+        }
+        else if(splitArray[0]=='Leave'){
+            sentence = `${splitArray[1]}님이 나갔습니다.`
+        }
+        else if(splitArray[0]=='Change'){
+            user.set(splitArray[1],splitArray[2]);
+    }
+        if(sentence!='') answer.push(sentence)
+  
+    }
+  
+    let temp = [];
+    for(let i=0; i<answer.length;i++){
+        for(let j=0; j<userList.length;j++){
+            if(answer[i].includes(userList[j])){
+                temp.push(answer[i].replace(userList[j],user.get(userList[j])))
+                break;
+            }
+        }
+    }
+    answer = temp;
+  
+   
+    
     return answer;
 }
 
 
 // main
 if (require.main === module) { 
-    solution(["Enter uid1234 Muzi", "Enter uid4567 Prodo","Leave uid1234","Enter uid1234 Prodo","Change uid4567 Ryan"]);
+
+    const result = solution(["Enter uid1234 Muzi", "Enter uid4567 Prodo","Leave uid1234","Enter uid1234 Prodo","Change uid4567 Ryan"]);
+    console.log("###################Return 결과##############################")
+    console.log( result );
 }
 
 
