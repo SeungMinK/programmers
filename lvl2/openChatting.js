@@ -70,40 +70,27 @@ record	result
 
 function solution(record) {
     var answer = [];
-    let user = new Map();
-    let userList = [];
+    let userList = []; //U
+    
+    //Input 읽으면서 Enter 및 Change 경우 아이디 저장
     for(let i=0;i<record.length;i++){
         let splitArray = record[i].split(' ');
-        let sentence = '';
+        if(splitArray[0]=='Enter'||splitArray[0]=='Change'){     
+             userList[splitArray[1]] = splitArray[2]
+        }
+    }
     
-        if(splitArray[0]=='Enter'){
-            sentence = `${splitArray[1]}님이 들어왔습니다.`
-            user.set(splitArray[1],splitArray[2]);
-            userList.push(splitArray[1])
+    
+    //다시 Input 읽으면서 문장 최종 ID로 완성
+    for(let i=0;i<record.length;i++){
+        let splitArray = record[i].split(' ');
+        if(splitArray[0]=='Enter'){     
+            answer.push(`${userList[splitArray[1]]}님이 들어왔습니다.`)
         }
         else if(splitArray[0]=='Leave'){
-            sentence = `${splitArray[1]}님이 나갔습니다.`
+            answer.push(`${userList[splitArray[1]]}님이 나갔습니다.`)
         }
-        else if(splitArray[0]=='Change'){
-            user.set(splitArray[1],splitArray[2]);
-    }
-        if(sentence!='') answer.push(sentence)
-  
-    }
-  
-    let temp = [];
-    for(let i=0; i<answer.length;i++){
-        for(let j=0; j<userList.length;j++){
-            if(answer[i].includes(userList[j])){
-                temp.push(answer[i].replace(userList[j],user.get(userList[j])))
-                break;
-            }
-        }
-    }
-    answer = temp;
-  
-   
-    
+    }  
     return answer;
 }
 
