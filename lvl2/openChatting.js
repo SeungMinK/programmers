@@ -66,42 +66,39 @@ record	result
 문제의 설명과 같다.
  */
 
-
-
 function solution(record) {
     var answer = [];
     let userList = []; //U
-    
+
     //Input 읽으면서 Enter 및 Change 경우 아이디 저장
-    for(let i=0;i<record.length;i++){
-        let splitArray = record[i].split(' ');
-        if(splitArray[0]=='Enter'||splitArray[0]=='Change'){     
-             userList[splitArray[1]] = splitArray[2]
+    for (let i = 0; i < record.length; i++) {
+        let splitArray = record[i].split(" ");
+        if (splitArray[0] == "Enter" || splitArray[0] == "Change") {
+            userList[splitArray[1]] = splitArray[2];
         }
     }
-    
-    
+
     //다시 Input 읽으면서 문장 최종 ID로 완성
-    for(let i=0;i<record.length;i++){
-        let splitArray = record[i].split(' ');
-        if(splitArray[0]=='Enter'){     
-            answer.push(`${userList[splitArray[1]]}님이 들어왔습니다.`)
+    for (let i = 0; i < record.length; i++) {
+        let splitArray = record[i].split(" ");
+        if (splitArray[0] == "Enter") {
+            answer.push(`${userList[splitArray[1]]}님이 들어왔습니다.`);
+        } else if (splitArray[0] == "Leave") {
+            answer.push(`${userList[splitArray[1]]}님이 나갔습니다.`);
         }
-        else if(splitArray[0]=='Leave'){
-            answer.push(`${userList[splitArray[1]]}님이 나갔습니다.`)
-        }
-    }  
+    }
     return answer;
 }
 
-
 // main
-if (require.main === module) { 
-
-    const result = solution(["Enter uid1234 Muzi", "Enter uid4567 Prodo","Leave uid1234","Enter uid1234 Prodo","Change uid4567 Ryan"]);
-    console.log("###################Return 결과##############################")
-    console.log( result );
+if (require.main === module) {
+    const result = solution([
+        "Enter uid1234 Muzi",
+        "Enter uid4567 Prodo",
+        "Leave uid1234",
+        "Enter uid1234 Prodo",
+        "Change uid4567 Ryan",
+    ]);
+    console.log("###################Return 결과##############################");
+    console.log(result);
 }
-
-
-
