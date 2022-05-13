@@ -49,11 +49,6 @@ s	result
 
 */
 
-function solution(s) {
-    var answer = 0;
-    return answer;
-}
-
 // main
 if (require.main === module) {
     /*
@@ -63,7 +58,43 @@ if (require.main === module) {
     "abcabcabcabcdededededede"	14
     "xababcdcdababcdcd"	17
     */
-    const result = solution("aabbaccc");
+    const result = solution("aabbaccccccccccccccca"); //input
     console.log("###################Return 결과##############################");
     console.log(result);
+}
+
+function solution(s) {
+    var answer = 0;
+    let count = 0;
+    let minValue = s.length;
+    console.log(s.length);
+    for (let i = 1; i <= s.length; i++) {
+        for (let j = i + 1; j <= s.length; j++) {
+            // console.log(`[2MODE][${i}][${j}] : ${s.slice(i, j)}`);
+            for (let k = 1; k <= s.length; k++) {
+                count = 0;
+                // if (parseInt(s.length / 2) < j - i || s.length < k + (j - i))
+                if (s.slice(i, j) === s.slice(k, k + (j - i))) {
+                    for (let h = k; h <= s.length; h += j - i) {
+                        if (s.slice(i, j) === s.slice(h, h + (j - i))) count++;
+                        else break;
+                    }
+                }
+
+                // console.log(`[3MODE][${k}][${k + (j - i)}] : ${s.slice(k, k + (j - i))}`);
+                // console.log(`count : ${count.toString()},${count.toString().length}`);
+                if (count > 1) {
+                    let temp = s.length - (count - 1) * (j - i) + count.toString().length;
+                    if (minValue > temp) minValue = temp;
+                    // console.log(
+                    //     `글자 수 : ${s.length} 치환 후 글자 수 : ${
+                    //         s.length - (count - 1) * (j - i) + count.toString().length
+                    //     }`
+                    // );
+                }
+            }
+        }
+    }
+
+    return minValue;
 }
